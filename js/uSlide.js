@@ -5,7 +5,8 @@
             var settings = $.extend( {
                 'height':550,
                 'spacing': 0,
-                'duration': 200
+                'duration': 200,
+                'easing': 'linear'
             }, options);
             
             //run for each element
@@ -67,7 +68,7 @@
             var clone = firstChild.clone();
             container.append(clone);
             clone.bind('click', function(){$this.uSlide("next");});
-            container.animate({"marginLeft":-firstChild.width()+data["settings"]["spacing"]}, data["settings"]["duration"], function(){
+            container.animate({"marginLeft":-firstChild.width()+data.settings.spacing}, data.settings.duration, data.settings.easing, function(){
                 firstChild.remove();
                 container.css("marginLeft",0);
                 data.isMoving = false;
@@ -76,8 +77,25 @@
         
         prev : function(){
             var $this = $(this);
-            el.click(function(){
-                $this.uSlide("next");
+            var container = $this.find(".container");
+            var data = $this.data('uslide');
+
+            if($this.width()>=container.width())
+                return;
+            
+            if(data.isMoving)
+                return;
+            
+            data.isMoving = true;
+            
+            var lastChild = $(container.children()[container.children().length-1]);
+            var clone = lastChild.clone();
+            container.prepend(clone);
+            container.css("marginLeft", -1*(lastChild.width()+data.settings.spacing));
+            clone.bind('click', function(){$this.uSlide("next");});
+            container.animate({"marginLeft":0}, data.settings.duration, data.settings.easing, function(){
+                lastChild.remove();
+                data.isMoving = false;
             });
         }
     }
