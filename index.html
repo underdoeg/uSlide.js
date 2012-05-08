@@ -2,10 +2,29 @@
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 	<head>
-		<title>Plugins/Authoring - jQuery JavaScript Library</title>
+		<title>uSlide demo</title>
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script>
+		<script type="text/javascript" src="js/uSlide.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$("#slides").uSlide({'height':375, 'margin':20});
+				//$("#slides").uSlide("next");
+			})
+		</script>
 	</head>
 	<body>
+		<h1>uSlide example</h1>
+		<div id="slides">
+			<img src="img/1.JPG" />
+			<img src="img/2.JPG" />
+			<img src="img/3.JPG" />
+			<img src="img/4.JPG" />
+			<p style="width:200px">This is just some text inbetween the images. You'll have to specify the width of this element.</p>
+			<img src="img/5.JPG" />
+			<img src="img/6.JPG" />
+			<img src="img/7.JPG" />
+		</div>
+		<p>The above is some blah blah example</p>
 	</body>
 </html>
 
