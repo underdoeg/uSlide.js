@@ -27,11 +27,6 @@
                 var container = $this.find(".container");
                 container.append(children);
                 
-                //helper function to resize the container
-                function resizeContainer(el){
-                    container.width(container.width()+$(el).width()+settings.spacing);
-                }
-                
                 children.each(function(index, child){
                     //set display to block and float
                     var $child = $(child);
@@ -43,10 +38,10 @@
                     if($child.width()==0){//images or other elements might not have a width when the page is ready, so we must update the onload
                         //child.tagName.toLowerCase() == "img" &&
                         $child.load(function(){
-                            resizeContainer(this);
+                            setTimeout(function(){$this.uSlide("update");}, 30); //not sure if this is a good idea but it fixed some issues with cached images and local websites
                         });
                     }else{
-                        resizeContainer(this);
+                        $this.uSlide("update");
                     }
                     //alert($(child).width());
                 })
@@ -57,7 +52,7 @@
             var $this = $(this);
             var container = $this.find(".container");
             var data = $this.data('uslide');
-
+                            
             if($this.width()>=container.width())
                 return;
             
@@ -82,7 +77,7 @@
             var $this = $(this);
             var container = $this.find(".container");
             var data = $this.data('uslide');
-
+            
             if($this.width()>=container.width())
                 return;
             
@@ -101,6 +96,18 @@
                 lastChild.remove();
                 data.isMoving = false;
             });
+        },
+        
+        update: function(){
+            var $this = $(this);
+            var data = $this.data('uslide');
+            var container = $this.find(".container");
+            var newWidth = 0;
+            container.children().each(function(index, child){
+                //alert(child.tagName);
+                newWidth += $(child).width()+data.settings.spacing;
+            });
+            container.width(newWidth);
         }
     }
     
