@@ -110,6 +110,10 @@
                 newWidth += $(child).width()+data.settings.spacing;
             });
             container.width(newWidth);
+        },
+        
+        canMove: function(){
+            return !($(this).width()>=$(this).find(".container").width());
         }
     }
     
