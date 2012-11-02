@@ -35,6 +35,8 @@
                     $child.css("float","left");
                     $child.css("display", "block");
                     $child.css("margin-right",settings.spacing+"px");
+                    if($child.height()<settings.height)
+                         $child.css("margin-bottom",(settings.height - $child.height())+"px");
                     if($child.width()==0){//images or other elements might not have a width when the page is ready, so we must update the onload
                         //child.tagName.toLowerCase() == "img" &&
                         $child.load(function(){
