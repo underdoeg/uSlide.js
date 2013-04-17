@@ -7,16 +7,19 @@
                 'spacing': 0,
                 'duration': 200,
                 'easing': 'linear',
-                'forwardOnClick': true
+                'forwardOnClick': true,
+                'onChange': undefined
             }, options);
             
             //run for each element
             return this.each(function(){
+
                 var $this = $(this);
                 //create the data block for each element
                 $this.data('uslide', {});
                 var data = $this.data('uslide');
                 data["settings"] = settings;
+                data["position"] = 0;
                 //style $this
                 $this.css('overflow',"hidden");
                 $this.height(settings.height);
@@ -47,6 +50,7 @@
                     }
                     //alert($(child).width());
                 })
+                
             });
         },
         
@@ -72,6 +76,10 @@
                 firstChild.remove();
                 container.css("marginLeft",0);
                 data.isMoving = false;
+                data["position"] += 1;
+                if(data["position"] >= container.children().length)
+                    data["position"] = 0;
+                $this.uSlide("fireEvent");
             });
         },
         
@@ -97,6 +105,10 @@
             container.animate({"marginLeft":0}, data.settings.duration, data.settings.easing, function(){
                 lastChild.remove();
                 data.isMoving = false;
+                data["position"] -= 1;
+                if(data["position"] < 0)
+                    data["position"] = container.children().length-1;
+                $this.uSlide("fireEvent");
             });
         },
         
@@ -106,7 +118,6 @@
             var container = $this.find(".container");
             var newWidth = 0;
             container.children().each(function(index, child){
-                //alert(child.tagName);
                 newWidth += $(child).width()+data.settings.spacing;
             });
             container.width(newWidth);
@@ -114,6 +125,21 @@
         
         canMove: function(){
             return !($(this).width()>=$(this).find(".container").width());
+        },
+
+        fireEvent: function(){
+            var $this = $(this);
+            var data = $this.data('uslide');
+            console.log
+            if(data.settings.onChange != undefined){
+                data.settings.onChange(data["position"]);
+            }
+        },
+
+        getPosition: function(){
+            var $this = $(this);
+            var data = $this.data('uslide');
+            return data["position"];
         }
     }
     
