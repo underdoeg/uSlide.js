@@ -21,6 +21,7 @@
                 data["settings"] = settings;
                 data["position"] = 0;
                 //style $this
+
                 $this.css('overflow',"hidden");
                 $this.height(settings.height);
                 
